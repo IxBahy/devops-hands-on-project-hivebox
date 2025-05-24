@@ -52,4 +52,22 @@ Here is a pre-start checklist:
 
 ## Implementation
 
-** ADD YOUR IMPLEMENTATION DOCUMENTATION HERE **
+### API Endpoints
+
+The HiveBox API provides the following endpoints:
+
+- **Root Endpoint**: `/`
+  - Returns a welcome message
+  - Method: GET
+
+- **Health Check**: `/health`
+  - Returns the current health status of the application
+  - Method: GET
+
+- **Prometheus Metrics**: `/metrics`
+  - Returns Prometheus-compatible metrics about the application
+  - Method: GET
+  - No parameters required
+  - Used for monitoring application performance and health
+
+For more details about the metrics endpoint, see the [metrics documentation](./docs/metrics.md).

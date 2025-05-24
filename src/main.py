@@ -1,6 +1,8 @@
 import uvicorn
 from fastapi import FastAPI
 from typing import Dict
+from contextlib import asynccontextmanager
+from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI(
     title="HiveBox API",
@@ -25,5 +27,25 @@ def health_check() -> Dict[str, str]:
     return {"status": "healthy"}
 
 
+instrumentator = Instrumentator().instrument(app)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Handle application startup and shutdown events.
+    Start the metrics collection on application startup.
+    """
+    # Expose metrics endpoint on startup
+    instrumentator.expose(app, endpoint="/metrics")
+    yield
+    # Cleanup could go here if needed
+
+
+# Set lifespan handler
+app.router.lifespan_context = lifespan
+
+
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    # Run with the app directly
+    uvicorn.run(app, host="0.0.0.0", port=8000, reload=False)
