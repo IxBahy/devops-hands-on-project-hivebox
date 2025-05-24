@@ -5,7 +5,7 @@ from typing import Dict
 app = FastAPI(
     title="HiveBox API",
     description="A FastAPI application for the HiveBox DevOps project",
-    version="0.1.0",
+    version="0.0.1",
 )
 
 
