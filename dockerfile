@@ -1,14 +1,13 @@
 FROM python:3.13.3-slim
 
-# Update pip version
-RUN pip install --upgrade pip
+RUN pip install --no-cache-dir --upgrade pip==24.0
 
 WORKDIR /app
 
 # Generate a requirements.txt file from the lock file
 COPY requirements.lock pyproject.toml ./
 
-# Try to extract the dependencies from the requirements.lock file
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN grep "^[a-zA-Z].*==" requirements.lock | sed 's/^//' > requirements.txt || echo "Failed to extract dependencies"
 
 # Install dependencies with pip
