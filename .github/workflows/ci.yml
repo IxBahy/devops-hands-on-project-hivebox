@@ -81,4 +81,9 @@ jobs:
 
       - name: Test Docker image
         run: |
-          docker run --rm hivebox:latest --version
+          # Start container in background and check it's running
+          docker run --rm -d -p 8000:8000 --name test-hivebox hivebox:latest
+          sleep 10
+
+          docker ps | grep test-hivebox
+          docker stop test-hivebox
